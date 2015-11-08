@@ -22,7 +22,17 @@
           9.针对服务器的优化、拥抱最新前端技术。
 
 * canvas的一些标准应用  
-            sdfsd
+
+```python
+@requires_authorization
+class SomeClass:
+    pass
+
+if __name__ == '__main__':
+    # A comment
+    print 'hello world'
+```
+
 * html5的了解  
 
 
