@@ -191,7 +191,9 @@ IE、Opera 认为 offsetHeight 是可视区域 clientHeight 滚动条加边框�
 ```
 * 滚动条的宽度
 * html5里怎么放大
+```
 scale()
+```
 
 * 对前端行业的看法  
 ```
@@ -242,6 +244,25 @@ position: absolute;
 优化 DOM layout 性能
 ```
 * canvas的一些标准应用  
+```
+通过 JavaScript 来绘制
+canvas 元素本身是没有绘图能力的。所有的绘制工作必须在 JavaScript 内部完成：
+<script type="text/javascript">
+var c=document.getElementById("myCanvas");
+var cxt=c.getContext("2d");
+cxt.fillStyle="#FF0000";
+cxt.fillRect(0,0,150,75);
+</script>
+JavaScript 使用 id 来寻找 canvas 元素：
+var c=document.getElementById("myCanvas");
+然后，创建 context 对象：
+var cxt=c.getContext("2d"); 
+getContext("2d") 对象是内建的 HTML5 对象，拥有多种绘制路径、矩形、圆形、字符以及添加图像的方法。
+下面的两行代码绘制一个红色的矩形：
+cxt.fillStyle="#FF0000";
+cxt.fillRect(0,0,150,75); 
+fillStyle 方法将其染成红色，fillRect 方法规定了形状、位置和尺寸。
+```
 
 * html5的了解  
 
@@ -250,6 +271,13 @@ position: absolute;
 * ES6的一些新特性的实现  
 
 * 一些布局  
+
+HTML元素分为五大类：
+Void elements。像hr，br，base这种。
+Raw text elements。有两个：script和style.
+RCDATA elements。也有两个：textarea和title.
+Foreign elements。来自MATHML和SVG的元素。
+Normal elements。除了以上四种类型之外的所有元素，比如p，div，iframe等
 
 #####underscore源码  
 
