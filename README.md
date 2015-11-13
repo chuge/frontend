@@ -272,7 +272,7 @@ fillStyle 方法将其染成红色，fillRect 方法规定了形状、位置和�
 
 * 一些布局  
 
-*HTML元素分为五大类：
+* HTML元素分为五大类：
 ```
 Void elements。像hr，br，base这种.
 Raw text elements。有两个：script和style.
@@ -284,20 +284,20 @@ Normal elements。除了以上四种类型之外的所有元素，比如p，div�
 
 
 ####蘑菇街：
-首屏加载优化。
-模块化的实践经验。
-Angular.js中factory和service的区别。
-Angular.js中双向绑定的实现原理。
+* 首屏加载优化。
+* 模块化的实践经验。
+* Angular.js中factory和service的区别。
+* Angular.js中双向绑定的实现原理。
 
 ####UC:
-BigRender的原理。
-Promise的应用场景。
-闭包的优缺点。
-html语义化的理解。
+* BigRender的原理。
+* Promise的应用场景。
+* 闭包的优缺点。
+* html语义化的理解。
 
 ####其它:
-CSS3：animate，transition
-日期格式化函数的实现原理
-js代码的缓存
-框架设计的想法
+* CSS3：animate，transition
+* 日期格式化函数的实现原理
+* js代码的缓存
+* 框架设计的想法
 
