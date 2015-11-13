@@ -153,6 +153,13 @@ callback({"name":"hax","gender":"Male"})
 ```
 
 * 清除浮动
+```
+1. 对父容器加上 .parent:before { content: ""; clear:both; display:table;}  
+.parent:after { content: ""; clear:both; display:table;}
+2. 对父容器加上 .parent { display: table}
+3. 对父容器加上 .parent { overflow: hidden}
+4. 使父容器浮动
+```
 * JS获取页面的高度宽度
 * 滚动条的宽度
 * html5里怎么放大
