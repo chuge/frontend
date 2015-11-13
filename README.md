@@ -272,13 +272,14 @@ fillStyle 方法将其染成红色，fillRect 方法规定了形状、位置和�
 
 * 一些布局  
 
-HTML元素分为五大类：
-Void elements。像hr，br，base这种。
+*HTML元素分为五大类：
+```
+Void elements。像hr，br，base这种.
 Raw text elements。有两个：script和style.
 RCDATA elements。也有两个：textarea和title.
-Foreign elements。来自MATHML和SVG的元素。
+Foreign elements。来自MATHML和SVG的元素.
 Normal elements。除了以上四种类型之外的所有元素，比如p，div，iframe等
-
+```
 #####underscore源码  
 
 
