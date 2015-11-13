@@ -161,6 +161,34 @@ callback({"name":"hax","gender":"Male"})
 4. 使父容器浮动
 ```
 * JS获取页面的高度宽度
+```
+window.screen.availWidth 返回当前屏幕宽度(空白空间) 
+window.screen.availHeight 返回当前屏幕高度(空白空间) 
+window.screen.width 返回当前屏幕宽度(分辨率值) 
+window.screen.height 返回当前屏幕高度(分辨率值) 
+window.document.body.offsetHeight; 返回当前网页高度 
+window.document.body.offsetWidth; 返回当前网页宽度 
+
+我们这里说说四种浏览器对 document.body 的 clientHeight、offsetHeight 和 scrollHeight 的解释。
+
+这四种浏览器分别为IE（Internet Explorer）、NS（Netscape）、Opera、FF（FireFox）。
+
+clientHeight
+大家对 clientHeight 都没有什么异议，都认为是内容可视区域的高度，也就是说页面浏览器中可以看到内容的这个区域的高度，一般是最后一个工具条以下到状态栏以上的这个区域，与页面内容无关。
+
+offsetHeight
+IE、Opera 认为 offsetHeight = clientHeight + 滚动条 + 边框。
+NS、FF 认为 offsetHeight 是网页内容实际高度，可以小于 clientHeight。
+
+scrollHeight
+IE、Opera 认为 scrollHeight 是网页内容实际高度，可以小于 clientHeight。
+NS、FF 认为 scrollHeight 是网页内容高度，不过最小值是 clientHeight。
+
+简单地说
+clientHeight 就是透过浏览器看内容的这个区域高度。
+NS、FF 认为 offsetHeight 和 scrollHeight 都是网页内容高度，只不过当网页内容高度小于等于 clientHeight 时，scrollHeight 的值是 clientHeight，而 offsetHeight 可以小于 clientHeight。
+IE、Opera 认为 offsetHeight 是可视区域 clientHeight 滚动条加边框。scrollHeight 则是网页内容实际高度。
+```
 * 滚动条的宽度
 * html5里怎么放大
 
