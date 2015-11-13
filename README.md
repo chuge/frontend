@@ -22,6 +22,34 @@
 ```
 
 * 计时器的缺点
+```
+setTimeout(function(){
+
+/* Some long block of code… */
+
+setTimeout(arguments.callee, 10);
+
+}, 10);
+
+setInterval(function(){
+
+/* Some long block of code… */
+
+}, 10);
+
+这两个函数看起来效果一样，其实不然，第一个代码块总会延迟10毫秒执行，虽然大多时候是大于10毫秒的。而第二个每到10毫秒就尝试执行，不管之前的触发执行了没有。
+
+总结起来四条
+
+• JavaScript 引擎只有一个线程，它会迫使某些异步事件排队
+
+• setTimeout 和 setInterval 在执行异步代码的时候有很大区别
+
+• 假如一个计时器被阻止执行，它会等待知道遇到一个代码执行空隙，通常时间比预计的要长
+
+• Intervals 可能会一个挨着一个执行，如果回调函数的执行时间大于间隔
+```
+
 
 * angular的一些特性  
 
