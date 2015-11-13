@@ -191,6 +191,7 @@ IE、Opera 认为 offsetHeight 是可视区域 clientHeight 滚动条加边框�
 ```
 * 滚动条的宽度
 * html5里怎么放大
+scale()
 
 * 对前端行业的看法  
 ```
@@ -205,6 +206,40 @@ IE、Opera 认为 offsetHeight 是可视区域 clientHeight 滚动条加边框�
 7. 做好的页面结构，页面重构
 8. hack，兼容、写出优美的代码格式
 9. 针对服务器的优化、拥抱最新前端技术
+```
+* css3动画优化
+```
+目前对提升移动端CSS3动画体验的主要方法有几点：
+
+尽可能多的利用硬件能力，如使用3D变形来开启GPU加速
+如下面一个元素通过translate3d右移500px的动画流畅度会明显优于使用left属性：
+
+#ball-1 {
+  transition: -webkit-transform .5s ease;
+  -webkit-transform: translate3d(0, 0, 0);
+}
+#ball-1.slidein {
+  -webkit-transform: translate3d(500px, 0, 0);
+}
+
+
+#ball-2 {
+  transition: left .5s ease;
+  left: 0;
+}
+#ball-2.slidein {
+  left: 500px;
+}
+注：3D变形会消耗更多的内存与功耗，应确实有性能问题时才去使用它，兼在权衡
+尽可能少的使用box-shadows与gradients
+
+box-shadows与gradients往往都是页面的性能杀手，尤其是在一个元素同时都使用了它们，所以拥抱扁平化设计吧。
+
+尽可能的让动画元素不在文档流中，以减少重排
+
+position: fixed;
+position: absolute;
+优化 DOM layout 性能
 ```
 * canvas的一些标准应用  
 
