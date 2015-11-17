@@ -20,7 +20,7 @@ function turnToArr(arg) {
 }
 ```
 
-*Number.prototype.toFixed(), Numbser.prototype.toPrecision()
+* Number.prototype.toFixed(), Numbser.prototype.toPrecision()
 
 ####来自其他
 * html语义化  
