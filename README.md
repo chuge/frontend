@@ -3,6 +3,25 @@
 
 ##对自己的一些查漏补缺的记录
 
+####工作上
+* isArray
+```
+    if (!Array.isArray) {
+        Array.isArray = function (arg) {
+            return Object.prototype.toString.call(arg) === '[object Array]';
+        };
+    }
+```
+
+* arguments to arr
+```
+function turnToArr(arg) {
+   return Array.prototype.slice.call(arg);
+}
+```
+
+*Number.prototype.toFixed(), Numbser.prototype.toPrecision()
+
 ####来自其他
 * html语义化  
 ```
