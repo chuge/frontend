@@ -1,0 +1,78 @@
+#Products {
+    width: 616px;
+    margin: 0 auto;
+}
+
+#Panel {
+    border: 1px solid #c7c7c7;
+    margin-top: 60px;
+}
+
+#salesSetupPage .navigator li {
+    width: 33%;
+}
+
+#createClientInfoPage .navigator li {
+    width: 33%;
+}
+
+#createToolsIndicatorPage .navigator li {
+    width: 33%;
+}
+
+#previewandSubmitPage .navigator li {
+    width: 33%;
+}
+
+#salesSetupPage .navigator li.last {
+    width: 34%;
+}
+
+#createClientInfoPage .navigator li.last {
+    width: 34%;
+}
+
+#createToolsIndicatorPage .navigator li.last {
+    width: 34%;
+}
+
+#previewandSubmitPage .navigator li.last {
+    width: 34%;
+}
+
+#createToolsIndicatorPage option {
+    padding-left: 15px;
+}
+
+#externalClientInfoForm .adjust {
+    height: 14px;
+}
+
+#changeEmailBtn {
+    right: 31%;
+}
+
+#nonSearchBtnGroup {
+    float: none;
+}
+
+.dataGrid tr td a.onboardingBtn {
+    background-color: #f9f7f9;
+    background-position: -60px -109px;
+    background-repeat: no-repeat;
+    border: 1px solid #d2d2d2;
+    color: #000;
+    display: inline;
+    line-height: 18px;
+    margin-right: 3px;
+    margin-top: 3px;
+    padding-left: 26px;
+    padding-right: 7px;
+    text-decoration: none;
+}
+
+.dataGrid tr:hover td a.onboardingBtn {
+    display: inline;
+    font-weight: normal;
+    text-decoration: none;
+}
