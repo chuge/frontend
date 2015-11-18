@@ -1,0 +1,35 @@
+.button-area a {
+    display: block;
+    font-size: 11px;
+    color: #fff;
+    width: 75px;
+    height: 18px;
+    margin-bottom: 7px;
+    background-color: #848484;
+    text-decoration: none;
+    text-align: center;
+    line-height: 18px;
+}
+
+.left-area, .right-area {
+    overflow: auto;
+    float: left;
+    width: 253px;
+    height: 302px;
+    border: 1px solid #999;
+}
+
+.button-area {
+    overflow: hidden;
+    float: left;
+    width: 78px;
+    height: 220px;
+    margin: 0 16px;
+    vertical-align: middle;
+    padding-top: 88px;
+}
+
+.selector-container {
+    width: 616px;
+    margin: 0 auto;
+}
