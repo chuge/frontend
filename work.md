@@ -15,15 +15,12 @@ FF： 在用户点击确认第一个alert后，浏览器就跳转了，然后同
 $http(config).success(function (data) {
             if (typeof(data.html) === 'string' && data.html === '') {
                 $window.alert('Your session has become invalid. Please login again.');
-                //clear cookie and logout without send request for tracking, since session is expired.
                 forceLogOff();
             }
         }
     function forceLogOff() {
         var cachebreaker = new Date().getTime();
-        // force to load the logout.html from server
         var redirectUrl = $window.location.protocol + '//' + $window.location.host + '/logout.html?_=' + cachebreaker + '&target=' + $window.location.pathname;
-        $.removeCookie('SMLoginAttempts', {path: '/'});
         $window.location.replace(redirectUrl);
     }
 ```
