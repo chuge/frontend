@@ -1,3 +1,33 @@
+* session timeout & js single thread & alert blocking js executing
+
+```
+当session过期，用户点击一个按钮触发一件事件，这个事件包含多个ajax请求，每个ajax请求都会经历session timeout判断，第一个
+ajax 请求运行到alert的时候，js线程阻塞了，此时其他ajax可能以前请求完毕返回结果了。这里后续的处理，对于IE9, Chrome，FF42.0，是不一样的。
+
+IE9,Chorme： 在用户点击确认第一个alert后，浏览器弹出第二个alert，甚至第三个alert，等到所有alert被点击后，才进行window.location.replace跳转。
+
+FF： 在用户点击确认第一个alert后，浏览器就跳转了，然后同时弹出第二个alert，并没有后续的其他alert了。
+
+解决方法： 给判断是否session timeout函数加锁，也就是加一个闭包变量来判断当前是否已经执行过session timeout处理了。
+
+这里解决方法是简单的，但是这里的js单线程和alert阻塞js运行的知识点值得注意。
+
+$http(config).success(function (data) {
+            if (typeof(data.html) === 'string' && data.html === '') {
+                $window.alert('Your session has become invalid. Please login again.');
+                //clear cookie and logout without send request for tracking, since session is expired.
+                forceLogOff();
+            }
+        }
+    function forceLogOff() {
+        var cachebreaker = new Date().getTime();
+        // force to load the logout.html from server
+        var redirectUrl = $window.location.protocol + '//' + $window.location.host + '/logout.html?_=' + cachebreaker + '&target=' + $window.location.pathname;
+        $.removeCookie('SMLoginAttempts', {path: '/'});
+        $window.location.replace(redirectUrl);
+    }
+```
+
 * Button在table-cell或者div里面怎么定位
 * 一行button和字怎么对齐
 
