@@ -6,6 +6,11 @@
 ####工作上遇到的问题
 
 ##### JS
+
+* js老生常谈之this,constructor ,prototype
+```
+http://www.haorooms.com/post/js_constructor_pro
+```
 * ajax返回多次造成阻塞，单线程问题
 ```
 具体明天去找代码
