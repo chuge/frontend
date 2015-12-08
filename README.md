@@ -29,6 +29,10 @@ console result: 12345678901234568
 ```
 为每排加上一个包含的div，然后为div清除浮动。
 ```
+* 左边高度和右边div高度一致。
+```
+由于不考虑ie9一下，所以，使用display： table, display: table-row , display:table-cell来解决
+```
 
 
 ####工作上
