@@ -33,6 +33,9 @@ console result: 12345678901234568
 ```
 由于不考虑ie9一下，所以，使用display： table, display: table-row , display:table-cell来解决
 ```
+####五百米面试
+* 对angular技术选型，为什么选择angular
+* 不同浏览器兼容性遇到的问题
 
 
 ####工作上
