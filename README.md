@@ -10,6 +10,19 @@
 ```
 具体明天去找代码
 ```
+* id精度丢失问题
+```
+老系统原先id是后台java以long类型传递到前台，原先长度不到10位，后来重构后超出Number类型最大integer的值
+
+Number.MAX_SAFE_INTEGER 
+The maximum safe integer in JavaScript (2^53 - 1).
+
+input: 12345678901234567
+console result: 12345678901234568
+超出16位或者大于最大值就会出现精度丢失。
+
+解决：使用string来存储id
+```
 
 ** CSS
 * 用float形式去流式布局，第一排如果高度不同，第二排可能就会不在同一条水平线上。
