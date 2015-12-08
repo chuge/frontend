@@ -3,6 +3,11 @@
 
 ##对自己的一些查漏补缺的记录
 
+####工作上遇到的难题
+
+
+
+
 ####工作上
 * isArray
 ```
@@ -69,6 +74,12 @@ setInterval(function(){
 • Intervals 可能会一个挨着一个执行，如果回调函数的执行时间大于间隔
 ```
 
+null和undefined的区别。
+```
+null 表示一个值被定义了，定义为“空值”；
+undefined 表示根本不存在定义。
+REF: http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html
+```
 
 * angular的一些特性  
 ```
