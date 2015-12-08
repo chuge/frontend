@@ -368,3 +368,6 @@ html语义化让页面的内容结构化，结构更清晰，便于对浏览器�
 * js代码的缓存
 * 框架设计的想法
 
+
+##参考
+###其他面试题:  http://www.oschina.net/question/2012764_243956?fromerr=tXX6Z9Z6
