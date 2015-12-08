@@ -6,6 +6,26 @@
 ####工作上遇到的问题
 
 ##### JS
+* new 构造函数
+```
+有些大侠们，总结了下 new+构造函数 至少做了4件事，基本思路如下：
+这样按照第三点来说的话，会有MyClass.call(obj)发生，所以会执行Myclass().
+
+// new Base();
+
+// 1.创建一个空对象 obj
+var obj = {};
+// 2.设置obj的proto为原型
+obj.proto = Base.prototype;
+// 3.使用obj作为上下文调用Base函数
+var ret = Base.call(obj);
+// 4.如果构造函数返回的是原始值，那么这个返回值会被忽略，如果返回的是对象，就会覆盖构造的实例
+if(typeof ret == 'object'){
+return ret;
+} else {
+return obj;
+}
+```
 
 * js老生常谈之this,constructor ,prototype
 ```
