@@ -1,6 +1,6 @@
 * session timeout & js single thread & alert blocking js executing
 
-```
+
 当session过期，用户点击一个按钮触发一件事件，这个事件包含多个ajax请求，每个ajax请求都会经历session timeout判断，第一个
 ajax 请求运行到alert的时候，js线程阻塞了，此时其他ajax可能以前请求完毕返回结果了。这里后续的处理，对于IE9, Chrome，FF42.0，是不一样的。
 
@@ -23,7 +23,7 @@ $http(config).success(function (data) {
         var redirectUrl = $window.location.protocol + '//' + $window.location.host + '/logout.html?_=' + cachebreaker + '&target=' + $window.location.pathname;
         $window.location.replace(redirectUrl);
     }
-```
+
 
 * Button在table-cell或者div里面怎么定位
 * 一行button和字怎么对齐
