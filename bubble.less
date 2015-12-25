@@ -1,0 +1,92 @@
+@row-color-hover: #CEDBEF;
+//@region-color: rgb(0,174,121);
+@region-color: rgb(76, 198, 161);
+@region-h-color: #333;
+
+//@topic-color: rgb(245,110,0);
+@topic-color: rgb(248, 153, 76);
+@topic-h-color: #333;
+
+//@popword-color: rgb(170,26,51);
+@popword-color: rgb(195, 94, 112);
+@popword-h-color: #333;
+
+//@assetclass-color: rgb(255,189,6);
+@assetclass-color: rgb(255, 209, 80);
+@assetclass-h-color: #333;
+
+#bubble-cloud, #bubble-cloud-lite {
+
+  overflow: hidden;
+  position: relative;
+
+  #bubble-nodes {
+    .bubble-hide {
+      opacity: 0.2;
+    }
+    #bubble-background {
+      fill: none;
+      pointer-events: all;
+    }
+
+    a {
+      &.bubble-node {
+
+        fill: #D0DFF2;
+
+        &.assetclass {
+          fill: @assetclass-color;
+        }
+
+        &.region {
+          fill: @region-color;
+        }
+
+        &.popularword {
+          fill: @popword-color;
+        }
+
+        &.topic {
+          fill: @topic-color;
+        }
+      }
+
+      &.bubble-hover {
+        fill: #5A9BCA;
+        fill-opacity: 0.8;
+      }
+      &.merged-node {
+        stroke: #ffba13;
+        stroke-width: 1.5px;
+      }
+      &.bubble-selected {
+        stroke: #679000;
+        stroke-width: 1.5px;
+      }
+    }
+  }
+
+  #bubble-labels {
+
+    a.bubble-label {
+      color: #333333;
+      cursor: pointer;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      line-height: 1em;
+      position: absolute;
+      outline: none;
+      &.bubble-hide {
+        opacity: 0.2;
+      }
+      .bubble-label-name {
+        //display: inline;
+      }
+      .bubble-label-value {
+        font: bold 11px sans-serif;
+        white-space: nowrap;
+      }
+    }
+  }
+}
