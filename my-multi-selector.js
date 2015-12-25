@@ -1,12 +1,26 @@
-//module of products selector
 var twoSideSelector = (function () {
 
-    var leftArea, rightArea, unselectedData, selectedData, allData, includingStrategy;
+    var rawUnselectedData, rawSelectedData;
+
+    var leftArea, rightArea, unselectedData, selectedData, allData, includingStrategy, callback;
+
+    var leftAreaClass = 'left-area', rightAreaClass = 'right-area';
+
+    var addedItems, removedItems;
 
     function F(placeholder, opts) {
+
+        reset(placeholder);
+
         init(opts);
 
-        render(placeholder, allData, selectedData, includingStrategy);
+        rawSelectedData = buildSelectedData(selectedData, removedItems, addedItems);
+
+        rawUnselectedData = calUnselectedData(allData, rawSelectedData);
+
+        unselectedData = calUnselectedData(allData, selectedData);
+
+        render(placeholder, unselectedData, selectedData, includingStrategy);
 
         bindEvents();
     }
@@ -15,6 +29,64 @@ var twoSideSelector = (function () {
         selectedData = opts.selectedData;
         allData = opts.allData;
         includingStrategy = opts.includingStrategy;
+        callback = opts.callback;
+
+        //This codes is used for recovery selector when page reload.
+        addedItems = opts.addedItems || {};
+        removedItems = opts.removedItems || {};
+    };
+
+    var removeAddedFromRawSelected = function (rawSelectedData, addedItems) {
+        var arr, currentRawArr;
+        for (var groupName in addedItems) {
+            if (!addedItems.hasOwnProperty(groupName)) {
+                continue;
+            }
+            arr = addedItems[groupName];
+            for (var i = 0, length = arr.length; i < length; i++) {
+                currentRawArr = findItem(groupName, rawSelectedData, 'group')['list'];
+                deleteItem(arr[i]['id'], currentRawArr);
+            }
+        }
+    };
+
+    var buildSelectedData = function (selectedData, removedItems, addedItems) {
+        var arr, currentAllArr, item,
+            rawSelectedData = deepCopy(selectedData);
+        //when init the page, the removedItems is [], but when user back the page, the removedItems is not null
+        //handle case when user back to previous page will reload this component
+        for (var groupName in removedItems) {
+            if (!removedItems.hasOwnProperty(groupName)) {
+                continue;
+            }
+            arr = removedItems[groupName];
+            for (var i = 0, length = arr.length; i < length; i++) {
+                currentAllArr = findItem(groupName, allData, 'group')['list'];
+                item = deepCopy(findItem(arr[i]['id'], currentAllArr));
+                pushIntoRawData(item, groupName, rawSelectedData);
+            }
+        }
+        removeAddedFromRawSelected(rawSelectedData, addedItems);
+
+        return rawSelectedData;
+    };
+
+    var pushIntoRawData = function (item, groupName, rawData) {
+        var tempArr = [], tempObj = {}, groupObj = findItem(groupName, rawData, 'group');
+        if (!groupObj) {
+            tempArr.push(item);
+            tempObj = {
+                group: groupName,
+                list: tempArr
+            };
+            rawData.push(tempObj);
+        } else {
+            groupObj['list'].push(item);
+        }
+    };
+
+    var reset = function (placeholder) {
+        $('#' + placeholder).empty();
     };
 
     var deepCopy = function (o) {
@@ -23,7 +95,9 @@ var twoSideSelector = (function () {
         if (o && typeof o === 'object') {
             copy = Object.prototype.toString.call(o) === '[object Array]' ? [] : {};
             for (k in o) {
-                copy[k] = deepCopy(o[k]);
+                if (o.hasOwnProperty(k)) {
+                    copy[k] = deepCopy(o[k]);
+                }
             }
         }
 
@@ -41,10 +115,8 @@ var twoSideSelector = (function () {
         return btn;
     };
 
-    var render = function (placeholder, allData, selectedData, includingStrategy) {
+    var render = function (placeholder, unselectedData, selectedData, includingStrategy) {
         renderLayout(placeholder);
-
-        unselectedData = calUnselectedData(allData, selectedData);
 
         renderItems(unselectedData, selectedData, includingStrategy);
     };
@@ -82,8 +154,12 @@ var twoSideSelector = (function () {
         }
     };
 
-    var addItem = function (id, list, tobeAdded) {
-        var item = findItem(id, list);
+    var addItem = function (id, list, _tobeAdded) {
+        var item = findItem(id, list),
+            tobeAdded = _tobeAdded || list;
+        if (!item) {
+            return;
+        }
         tobeAdded.push(item);
     };
 
@@ -91,7 +167,7 @@ var twoSideSelector = (function () {
         var unselectedData = deepCopy(allData);
 
         if (!selectedData) {
-            return
+            return;
         }
 
         for (var i = 0; i < selectedData.length; i++) {
@@ -114,7 +190,7 @@ var twoSideSelector = (function () {
 
     };
 
-    var drawOptions = function (data, includingStrategy, placeholder) {
+    var drawOptions = function (data, placeholder, includingStrategy) {
         var index = 0;
         for (var i = 0; i < data.length; i++) {
             var list = data[i]['list'];
@@ -151,25 +227,23 @@ var twoSideSelector = (function () {
     };
 
     var highlightAddedAndRemoved = function () {
-        var addedItems = this.addedItems;
-        var removedItems = this.removedItems;
-        $('.highlightProd').removeClass('highlightProd');
+        $('.highlight').removeClass('highlight');
         if (addedItems) {
             for (var group in addedItems) {
                 var list = addedItems[group];
                 if (list && list.length > 0) {
                     for (var i = 0; i < list.length; i++) {
-                        $('.rightArea optgroup[label="' + group + '"] option[value="' + list[i].id + '"]').addClass('highlightProd');
+                        $('.' + rightAreaClass + ' optgroup[label="' + group + '"] option[value="' + list[i].id + '"]').addClass('highlight');
                     }
                 }
             }
         }
         if (removedItems) {
-            for (var group in removedItems) {
-                var list = removedItems[group];
+            for (group in removedItems) {
+                list = removedItems[group];
                 if (list && list.length > 0) {
-                    for (var i = 0; i < list.length; i++) {
-                        $('.leftArea optgroup[label="' + group + '"] option[value="' + list[i].id + '"]').addClass('highlightProd');
+                    for (i = 0; i < list.length; i++) {
+                        $('.' + leftAreaClass + ' optgroup[label="' + group + '"] option[value="' + list[i].id + '"]').addClass('highlight');
                     }
                 }
             }
@@ -204,13 +278,29 @@ var twoSideSelector = (function () {
 
     var moveItems = function ($source) {
         $source.find("option:selected").each(function () {
-            var group = this.getAttribute('category'),
+            var $this = $(this), group = $this.attr('category'),
             //avoid if the id is not a number string
-                id = parseInt(this.value) || this.value;
+                id = parseInt($this.val()) || $this.val(),
+                name = $this.attr('title'),
+                item = {
+                    id: id,
+                    name: name,
+                    group: group
+                };
 
-            if ($source.attr('class') === 'left-area') {
+            if ($source.attr('class') === leftAreaClass) {
+                //left to right
+                addAddedItems(item);
+
+                removeDeletedItems(item);
+
                 moveItem(id, group, unselectedData, selectedData);
             } else {
+                //right to left
+                removeAddedItems(item);
+
+                addDeletedItems(item);
+
                 moveItem(id, group, selectedData, unselectedData);
             }
         });
@@ -218,18 +308,103 @@ var twoSideSelector = (function () {
         leftArea.children().remove();
         rightArea.children().remove();
 
-        drawOptions(unselectedData, includingStrategy, leftArea);
+        renderItems(unselectedData, selectedData, includingStrategy);
 
-        drawOptions(selectedData, includingStrategy, rightArea);
+        if (!!callback) {
+            callback(addedItems);
+        }
+    };
+
+    var addChangedItems = function (item, items) {
+        if (findIndex(item.id, items) === -1) {
+            items.push(item);
+        }
+    };
+
+    var removeChangedItems = function (item, items) {
+        deleteItem(item.id, items);
+    };
+
+    var addAddedItems = function (item) {
+        var list;
+
+        if (findIndexInRawData(item, rawUnselectedData) === -1) {
+            return;
+        }
+
+        list = addedItems[item['group']];
+
+        if (!list) {
+            list = addedItems[item['group']] = [];
+        }
+
+        addChangedItems(item, list);
+    };
+
+    var removeAddedItems = function (item) {
+        var list = addedItems[item['group']];
+        if (!list) {
+            return;
+        }
+
+        if (findIndexInRawData(item, rawUnselectedData) !== -1) {
+            removeChangedItems(item, list);
+        }
+        //remove list if there no elements in it
+        if (list.length === 0) {
+            delete addedItems[item['group']];
+        }
+    };
+
+    var addDeletedItems = function (item) {
+        var list;
+
+        if (findIndexInRawData(item, rawSelectedData) === -1) {
+            return;
+        }
+
+        list = removedItems[item['group']];
+
+        if (!list) {
+            list = removedItems[item['group']] = [];
+        }
+
+        addChangedItems(item, list);
+    };
+
+    var removeDeletedItems = function (item) {
+        var list = removedItems[item['group']];
+        if (!list) {
+            return;
+        }
+
+        if (findIndexInRawData(item, rawSelectedData) !== -1) {
+            removeChangedItems(item, list);
+        }
+
+        //remove list if there no elements in it
+        if (list.length === 0) {
+            delete removedItems[item['group']];
+        }
+    };
+
+    var findIndexInRawData = function (item, rawData) {
+
+        var GROUP = 'group', group = findItem(item[GROUP], rawData, GROUP);
+
+        if (!group) {
+            return -1;
+        }
+
+        return findIndex(item['id'], group['list']);
     };
 
     var renderItems = function (unselectedData, selectedData, includingStrategy) {
 
-        drawOptions(unselectedData, includingStrategy, leftArea);
+        drawOptions(unselectedData, leftArea, includingStrategy);
 
-        drawOptions(selectedData, includingStrategy, rightArea);
+        drawOptions(selectedData, rightArea, includingStrategy);
 
-        //this.showHideOption();
         highlightAddedAndRemoved();
     };
 
@@ -238,47 +413,65 @@ var twoSideSelector = (function () {
         var container = document.getElementById(placeholder),
             _leftArea = createSelect(),
             _rightArea = createSelect(),
-            buttonArea = document.createElement('div'),
+            toolArea = document.createElement('div'),
+            legendAddedArea = document.createElement('div'),
+            legendRemovedArea = document.createElement('div'),
+            textAdded = document.createTextNode('Added'),
+            textRemoved = document.createTextNode('Removed'),
+            spanAdded = document.createElement('span'),
+            spanRemoved = document.createElement('span'),
             addBtn = createBtn('Add>>'),
             addAllBtn = createBtn('Add All>>'),
             removeAllBtn = createBtn('<<Remove All'),
             removeBtn = createBtn('<<Remove');
 
         _leftArea.setAttribute("multiple", "multiple");
-        _leftArea.setAttribute("class", "left-area");
+        _leftArea.setAttribute("class", leftAreaClass);
 
         _rightArea.setAttribute("multiple", "multiple");
-        _rightArea.setAttribute("class", "right-area");
+        _rightArea.setAttribute("class", rightAreaClass);
 
-        buttonArea.setAttribute('class', 'button-area');
+        toolArea.setAttribute('class', 'tool-area');
 
         addBtn.setAttribute('id', 'addBtn');
         addAllBtn.setAttribute('id', 'addAllBtn');
         removeAllBtn.setAttribute('id', 'removeAllBtn');
         removeBtn.setAttribute('id', 'removeBtn');
 
-        buttonArea.appendChild(addBtn);
-        buttonArea.appendChild(addAllBtn);
-        buttonArea.appendChild(removeAllBtn);
-        buttonArea.appendChild(removeBtn);
+        spanAdded.setAttribute('class', 'added');
+        spanRemoved.setAttribute('class', 'removed');
+
+        legendAddedArea.appendChild(spanAdded);
+        legendRemovedArea.appendChild(spanRemoved);
+
+        legendAddedArea.appendChild(textAdded);
+        legendRemovedArea.appendChild(textRemoved);
+
+        legendAddedArea.setAttribute('class', 'legend');
+        legendRemovedArea.setAttribute('class', 'legend');
+
+        toolArea.appendChild(addBtn);
+        toolArea.appendChild(addAllBtn);
+        toolArea.appendChild(removeAllBtn);
+        toolArea.appendChild(removeBtn);
+
+        toolArea.appendChild(legendAddedArea);
+        toolArea.appendChild(legendRemovedArea);
 
         container.setAttribute('class', 'selector-container');
 
         container.appendChild(_leftArea);
 
-        container.appendChild(buttonArea);
+        container.appendChild(toolArea);
 
         container.appendChild(_rightArea);
 
-        leftArea = $('.left-area');
-        rightArea = $('.right-area');
+        leftArea = $('.' + leftAreaClass);
+        rightArea = $('.' + rightAreaClass);
 
     };
 
     var bindEvents = function () {
-        var leftArea = $('.left-area');
-        var rightArea = $('.right-area');
-
         leftArea.dblclick(function () {
             moveItems($(this));
         });
@@ -304,7 +497,14 @@ var twoSideSelector = (function () {
             rightArea.find("option").prop("selected", "selected");
             moveItems(rightArea);
         });
+    };
 
+    F.prototype.getAddedData = function () {
+        return addedItems;
+    };
+
+    F.prototype.getRemovedData = function () {
+        return removedItems;
     };
 
     return F;
