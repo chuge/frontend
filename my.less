@@ -1,0 +1,64 @@
+.selector-container {
+  & {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  select[multiple].left-area, select[multiple].right-area {
+    overflow: auto;
+    float: left;
+    width: 44%;
+    height: 300px;
+    border: 1px solid #999;
+  }
+
+  .right-area {
+    .highlight {
+      background-color: #87cefa;
+    }
+  }
+
+  .left-area {
+    .highlight {
+      background-color: #afeeee;
+    }
+  }
+
+  .tool-area {
+    & {
+      overflow: hidden;
+      float: left;
+      width: 12%;
+      height: 220px;
+      vertical-align: middle;
+      padding-top: 88px;
+    }
+    a {
+      display: block;
+      font-size: 11px;
+      color: #fff;
+      width: 75px;
+      height: 18px;
+      background-color: #848484;
+      text-decoration: none;
+      text-align: center;
+      line-height: 18px;
+      margin: 0 auto 5px;
+    }
+  }
+
+  .legend {
+    span {
+      display: inline-block;
+      height: 11px;
+      margin: 0 5px;
+      width: 11px;
+    }
+    .added {
+      background-color: #87cefa;
+    }
+    .removed {
+      background-color: #afeeee;
+    }
+  }
+}
