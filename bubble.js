@@ -5,7 +5,7 @@
 'use strict';
 
 window.BubbleCloud = function (config) {
-
+   
     var chart, collide, connectEvents, force, gravity, transformData;
 
     var nodes = null;
